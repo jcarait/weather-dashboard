@@ -53,8 +53,8 @@ var getCity = function (city) {
 
 function getQuery(latitude, longitude) {
 
-    var city;
     var date;
+    var weather
     var temp;
     var wind;
     var humidity;
@@ -64,15 +64,23 @@ function getQuery(latitude, longitude) {
           if (response.ok) {
               response.json().then(function (data){
                   console.log(data);
-                  displayWeatherToday();
+
+                  date = data.current.dt
+                  weather = data.current.weather[0].id
+
+                  displayWeatherToday(date, weather);
               })
           }
       }); 
 };
 
-function displayWeatherToday() {
+function displayWeatherToday(date, weather) {
 
-    subtitleEl.innerHTML = locationQuery;
+    var day = moment.unix(date).format("DD/MM/YYYY");
+
+    subtitleEl.innerHTML = locationQuery + " (" + day + ")";
+    // weatherIconEl.innerHtml = 
+
 
 }
 
