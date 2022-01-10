@@ -40,8 +40,18 @@
   
   p {
     font-size: 1.2rem;
+    font-weight: 525;
   }
   
+  img {
+    vertical-align: middle;
+  }
+
+  .weather-today {
+    border: 1px solid var(--dark);
+    padding: 10px;
+  }
+
    .btn {
     font-size: 1.3rem;
     text-decoration:none;
@@ -135,14 +145,6 @@
     margin: 0 5px;
     background-color: rgba(255,255,255, 1);
     border-radius: var(--border-radius);
-  }
-  
-  .icon-danger {
-    color: rgb(255, 70, 70);
-  }
-  
-  .icon-success {
-    color: rgb(29, 153, 255);
   }
   
   /* CARDS */

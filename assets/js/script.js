@@ -38,6 +38,7 @@ var getCity = function (city) {
                   getQuery(latCoords, lonCoords);
 
                   locationQuery = data.features[0].properties.geocoding.name + ", " + getCountry(stateAndCountryQuery);
+
                   function getCountry(location) {
                     var countryArray = [];
                     var countryArray = location.split(",");
@@ -57,6 +58,7 @@ function getQuery(latitude, longitude) {
     var temp;
     var wind;
     var humidity;
+    var uv;
 
     fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=hourly,daily&units=metric&appid=bcab79206c70f6bc43884e90ada9c868")
       .then(function (response){
@@ -66,15 +68,17 @@ function getQuery(latitude, longitude) {
 
                   date = data.current.dt
                   weather = data.current.weather[0].icon
-                  console.log(weather);
-
-                  displayWeatherToday(date, weather);
+                  temp = data.current.temp
+                  wind = data.current.wind_speed
+                  humidity = data.current.humidity
+                  uv = data.current.uvi
+                  displayWeatherToday(date, weather, temp, wind, humidity, uv);
               })
           }
       }); 
 };
 
-function displayWeatherToday(date, weather) {
+function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
 
     var day = moment.unix(date).format("DD/MM/YYYY");
 
@@ -84,6 +88,23 @@ function displayWeatherToday(date, weather) {
     weatherIconImg.setAttribute("src", "http://openweathermap.org/img/wn/" + weather + ".png");
 
     subtitleEl.appendChild(weatherIconImg);
+
+    var tempEl = document.createElement("P");
+    var windEl = document.createElement("P");
+    var humidityEl = document.createElement("P");
+    var uvIndexEl = document.createElement("P");
+
+    tempEl.textContent = "Temp: " + temp + "\xB0" + "C";
+    windEl.textContent = "Wind: " + wind + "KMH";
+    humidityEl.textContent = "Humidity: " + humidity + "46%";
+    uvIndexEl.textContent = "UV Index: " + uv
+
+    weatherContainerEl.appendChild(tempEl);
+    weatherContainerEl.appendChild(windEl);
+    weatherContainerEl.appendChild(humidityEl);
+    weatherContainerEl.appendChild(uvIndexEl);
+    
+
 
 }
 
