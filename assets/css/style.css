@@ -47,10 +47,12 @@
     vertical-align: middle;
   }
 
-  .weather-today {
-    border: 1px solid var(--dark);
-    padding: 10px;
+  section {
+    display: flex;
+    justify-content: flex-end;
   }
+
+
 
    .btn {
     font-size: 1.3rem;
@@ -199,6 +201,18 @@
   /* FONT UTILS */
   .text-uppercase {
     text-transform: uppercase;
+  }
+
+  /* CUSTOM */
+
+  .weather-today {
+    border: 1px solid var(--dark);
+    padding: 10px;
+  }
+
+  .forecast-card {
+    padding: 20px;
+    margin: 0 20px;
   }
   
   

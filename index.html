@@ -19,22 +19,22 @@
     </header>
 
 
-    <main class="flex-row justify-space-between">
-        <div class="col-12 col-md-4">
+    <main class="flex-row justify-space-between float-left">
+            <div class="col-12 col-md-4">
+                <div class="card">
+                    <h3 class="card-header text-uppercase">Search for a city</h3>
+                    <form id="search-form" class="card-body">
+                        <label class="form-label" for="username">City</label>
+                        <input name="city" id="city" type="text" autofocus="true" class="form-input" />
+                        <button type="submit" class="btn">Get Weather</button>
+                    </form>
+                </div>
 
-            <div class="card">
-                <h3 class="card-header text-uppercase">Search for a city</h3>
-                <form id="search-form" class="card-body">
-                    <label class="form-label" for="username">City</label>
-                    <input name="city" id="city" type="text" autofocus="true" class="form-input" />
-                    <button type="submit" class="btn">Get Weather</button>
-                </form>
-            </div>
-
-            <div class="card">
-                <h3 class="card-header text-uppercase">Search History</h3>
-                <div id="language-buttons" class="card-body">
-                    <button data-search="history" class="btn">Sydney</button>
+                <div class="card">
+                    <h3 class="card-header text-uppercase">Search History</h3>
+                    <div id="language-buttons" class="card-body">
+                        <button data-search="history" class="btn">Sydney</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -45,28 +45,38 @@
         </div>
     </main>
 
-    <div class="container-fluid mb-4">
-        <div class="row justify-content-center row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                <div class="card">
-                    <img src="https://via.placeholder.com/340x440/7fec59/FFFFFF" alt="...">
+<section class="container">
+        <div class="flex-row col-12 weather-forecast">
+            <div class="card">
+                <div class="card-body forecast-card">
+                    text content
                 </div>
-                <div class="card">
-                    <img src="https://via.placeholder.com/340x440/7fec59/FFFFFF" alt="...">
+            </div>
+            <div class="card">
+                <div class="card-body forecast-card">
+                    text content
                 </div>
-                <div class="card">
-                    <img src="https://via.placeholder.com/340x440/7fec59/FFFFFF" alt="...">
+            </div>
+            <div class="card">
+                <div class="card-body forecast-card">
+                    text content
                 </div>
-                <div class="card">
-                    <img src="https://via.placeholder.com/340x440/7fec59/FFFFFF" alt="...">
+            </div>
+            <div class="card">
+                <div class="card-body forecast-card">
+                    text content
                 </div>
-                <div class="card">
-                    <img src="https://via.placeholder.com/340x440/7fec59/FFFFFF" alt="...">
+            </div>
+            <div class="card">
+                <div class="card-body forecast-card">
+                    text content
                 </div>
-                <div class="card">
-                    <img src="https://via.placeholder.com/340x440/7fec59/FFFFFF" alt="...">
-                </div>
+            </div>
+            <div id="weather-container"></div>
         </div>
-    </div>
+    </section>
+
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
