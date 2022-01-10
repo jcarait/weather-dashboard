@@ -1,17 +1,18 @@
-var cityEl = document.querySelector("#city");
-var btnEl = document.querySelector(".btn");
+var cityInputEl = document.querySelector("#city");
+var btnEl = document.querySelector("#search-form");
 
-// var formSubmitHandler = function (event) {
-//     event.preventDefault();
+var formSubmitHandler = function (event) {
+    event.preventDefault();
 
-//     var city = cityEl.value.trim();
+    var city = cityInputEl.value.trim();
 
-//     if (city) {
-//         getCity(city);
-//     } else {
-//         alert("Please enter a city");
-//     };
-// };
+    if (city) {
+        getCity(city);
+        console.log(city);
+    } else {
+        alert("Please enter a city");
+    };
+};
 
 var getCity = function (city) {
     var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&format=geocodejson";
@@ -19,22 +20,31 @@ var getCity = function (city) {
     fetch(apiUrl)
       .then(function (response){
           if (response.ok) {
-              console.log(response);
+              response.json().then(function (data){
+                  latCoords = data.features[0].geometry.coordinates[0];
+                  lonCoords = data.features[0].geometry.coordinates[1];
+                  getQuery(latCoords, lonCoords);
+                  console.log(latCoords, latCoords)
+              })
+          }
+      });
+
+      
+};
+
+
+
+function getQuery(latitude, longitude) {
+
+    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=hourly,daily&appid=bcab79206c70f6bc43884e90ada9c868")
+      .then(function (response){
+          if (response.ok) {
+              console.log(response)
               response.json().then(function (data){
                   console.log(data);
               })
           }
-      });
+      }); 
 };
 
-getCity("sydney");
-
-
-
-function getApi() {
-    fetch("https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}")
-
-    
-}
-
-// btnEl.addEventListener("submit", formSubmitHandler);
+btnEl.addEventListener("submit", formSubmitHandler);
