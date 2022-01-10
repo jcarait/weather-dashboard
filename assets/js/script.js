@@ -1,6 +1,8 @@
 var cityInputEl = document.querySelector("#city");
 var btnEl = document.querySelector("#search-form");
 var weatherContainerEl = document.querySelector("#weather-container");
+var weatherIconEl = document.querySelector("#weather-icon");
+var subtitleEl = document.querySelector(".subtitle");
 
 var locationQuery
 
@@ -17,8 +19,10 @@ var formSubmitHandler = function (event) {
     };
 };
 
+
 var getCity = function (city) {
 
+    //Based on user input, the first search result is returned from the following API
     var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&format=geocodejson";
 
     fetch(apiUrl)
@@ -28,9 +32,18 @@ var getCity = function (city) {
                   console.log(data)
                   latCoords = data.features[0].geometry.coordinates[1];
                   lonCoords = data.features[0].geometry.coordinates[0];
+                  stateAndCountryQuery = data.features[0].properties.geocoding.label;
+                  // search weather based on coordinates from openstreetmap
                   getQuery(latCoords, lonCoords);
-                  locationQuery = data.features[0].properties.geocoding.label;
+
+                  locationQuery = data.features[0].properties.geocoding.name + ", " + getCountry(stateAndCountryQuery);
                   console.log(latCoords,lonCoords);
+
+                  function getCountry(location) {
+                    var countryArray = [];
+                    var countryArray = location.split(",");
+                    return location = countryArray.pop()
+                  }
               })
           } 
       })
@@ -40,7 +53,7 @@ var getCity = function (city) {
 
 function getQuery(latitude, longitude) {
 
-    var cityData;
+    var city;
     var date;
     var temp;
     var wind;
@@ -51,19 +64,18 @@ function getQuery(latitude, longitude) {
           if (response.ok) {
               response.json().then(function (data){
                   console.log(data);
-
-
+                  displayWeatherToday();
               })
           }
       }); 
 };
 
-var displayWeatherToday = function (city, date, temp, wind, humidity, uv) {
-    if (!city.length) {
-        weatherContainerEl.textContent = "City not found.";
-        return
-    }
-    
+function displayWeatherToday() {
+
+    subtitleEl.innerHTML = locationQuery;
+
 }
+
+
 
 btnEl.addEventListener("submit", formSubmitHandler);
