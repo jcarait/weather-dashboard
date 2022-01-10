@@ -35,15 +35,19 @@ var getCity = function (city) {
 
 function getQuery(latitude, longitude) {
 
-    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=hourly,daily&appid=bcab79206c70f6bc43884e90ada9c868")
+    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=hourly,daily&units=metric&appid=bcab79206c70f6bc43884e90ada9c868")
       .then(function (response){
           if (response.ok) {
-              console.log(response)
               response.json().then(function (data){
                   console.log(data);
               })
           }
       }); 
 };
+
+var displayWeatherToday = function (temp, wind, humidity, uv) {
+
+    
+}
 
 btnEl.addEventListener("submit", formSubmitHandler);
