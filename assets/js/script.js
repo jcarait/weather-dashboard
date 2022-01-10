@@ -4,7 +4,7 @@ var btnEl = document.querySelector("#search-form");
 var formSubmitHandler = function (event) {
     event.preventDefault();
 
-    var city = cityInputEl.value.trim();
+    var city = cityInputEl.value
 
     if (city) {
         getCity(city);
@@ -15,21 +15,20 @@ var formSubmitHandler = function (event) {
 };
 
 var getCity = function (city) {
+
     var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&format=geocodejson";
 
     fetch(apiUrl)
       .then(function (response){
           if (response.ok) {
               response.json().then(function (data){
-                  latCoords = data.features[0].geometry.coordinates[0];
-                  lonCoords = data.features[0].geometry.coordinates[1];
+                  latCoords = data.features[0].geometry.coordinates[1];
+                  lonCoords = data.features[0].geometry.coordinates[0];
                   getQuery(latCoords, lonCoords);
-                  console.log(latCoords, latCoords)
+                  console.log(latCoords,lonCoords);
               })
-          }
-      });
-
-      
+          } 
+      })
 };
 
 
