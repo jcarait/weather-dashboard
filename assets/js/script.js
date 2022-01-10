@@ -10,6 +10,10 @@ var locationQuery
 var formSubmitHandler = function (event) {
     event.preventDefault();
 
+    while (weatherContainerEl.firstChild) {
+        weatherContainerEl.removeChild(weatherContainerEl.lastChild);
+    }
+
     var city = cityInputEl.value
 
     if (city) {
@@ -96,7 +100,7 @@ function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
 
     tempEl.textContent = "Temp: " + temp + "\xB0" + "C";
     windEl.textContent = "Wind: " + wind + "KMH";
-    humidityEl.textContent = "Humidity: " + humidity + "46%";
+    humidityEl.textContent = "Humidity: " + humidity + "%";
     uvIndexEl.textContent = "UV Index: " + uv
 
     weatherContainerEl.appendChild(tempEl);
