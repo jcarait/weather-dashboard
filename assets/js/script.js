@@ -64,7 +64,7 @@ function getQuery(latitude, longitude) {
     var humidity;
     var uv;
 
-    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=hourly,daily&units=metric&appid=bcab79206c70f6bc43884e90ada9c868")
+    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=minutely,hourly&units=metric&appid=bcab79206c70f6bc43884e90ada9c868")
       .then(function (response){
           if (response.ok) {
               response.json().then(function (data){
@@ -77,6 +77,8 @@ function getQuery(latitude, longitude) {
                   humidity = data.current.humidity
                   uv = data.current.uvi
                   displayWeatherToday(date, weather, temp, wind, humidity, uv);
+
+
               })
           }
       }); 
@@ -107,7 +109,12 @@ function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
     weatherContainerEl.appendChild(windEl);
     weatherContainerEl.appendChild(humidityEl);
     weatherContainerEl.appendChild(uvIndexEl);
-    
+}
+
+var displayForecastWeather = function(date, weather, temp, wind, humidity, uv) {
+
+    var day = moment.unix(date).format("DD/MM/YYYY");
+
 
 
 }
