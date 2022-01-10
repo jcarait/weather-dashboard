@@ -1,8 +1,9 @@
 var cityInputEl = document.querySelector("#city");
 var btnEl = document.querySelector("#search-form");
 var weatherContainerEl = document.querySelector("#weather-container");
-var weatherIconEl = document.querySelector("#weather-icon");
 var subtitleEl = document.querySelector(".subtitle");
+var weatherIconEl = document.querySelector("#weather-icon");
+
 
 var locationQuery
 
@@ -37,8 +38,6 @@ var getCity = function (city) {
                   getQuery(latCoords, lonCoords);
 
                   locationQuery = data.features[0].properties.geocoding.name + ", " + getCountry(stateAndCountryQuery);
-                  console.log(latCoords,lonCoords);
-
                   function getCountry(location) {
                     var countryArray = [];
                     var countryArray = location.split(",");
@@ -66,7 +65,8 @@ function getQuery(latitude, longitude) {
                   console.log(data);
 
                   date = data.current.dt
-                  weather = data.current.weather[0].id
+                  weather = data.current.weather[0].icon
+                  console.log(weather);
 
                   displayWeatherToday(date, weather);
               })
@@ -79,8 +79,11 @@ function displayWeatherToday(date, weather) {
     var day = moment.unix(date).format("DD/MM/YYYY");
 
     subtitleEl.innerHTML = locationQuery + " (" + day + ")";
-    // weatherIconEl.innerHtml = 
+    var weatherIconImg = document.createElement("img");
 
+    weatherIconImg.setAttribute("src", "http://openweathermap.org/img/wn/" + weather + ".png");
+
+    subtitleEl.appendChild(weatherIconImg);
 
 }
 

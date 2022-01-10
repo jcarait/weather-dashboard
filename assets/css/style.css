@@ -1,8 +1,8 @@
 :root {
-    --primary: #f1f1f1;
+    --primary: #ebe8e8e1;
     --secondary: #9caea9;
     --tertiary: #788585;
-    --light-dark: #4429be;
+    --light-dark: #6051a5;
     --dark: #110f57;
     --border-radius: .3rem;
   }
@@ -183,6 +183,7 @@
     border: 2px solid var(--light-dark);
     border-radius: var(--border-radius);
   }
+  
   
   /* HEIGHT / WIDTH UTILS */
   .min-100-vh {
