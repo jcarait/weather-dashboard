@@ -79,6 +79,24 @@ function getQuery(latitude, longitude) {
                   uv = data.current.uvi
                   displayWeatherToday(date, weather, temp, wind, humidity, uv);
 
+                  var fiveDayInt = 5;
+                  var forecastArray = [];
+                
+                  //Loop 5 times to obtain 5-day weather forecast
+                  for (var i = 0; i < fiveDayInt; i++) {
+                    var forecastData = {
+                        date: data.daily[i].dt,
+                        weather: data.daily[i].weather[0].icon,
+                        temp: data.daily[i].temp,
+                        wind: data.daily[i].wind_speed,
+                        humidity: data.daily[i].humidity
+                    }
+                    forecastArray.push(forecastData)
+                  }
+
+                  
+                    console.log(forecastArray);
+
 
               })
           }
