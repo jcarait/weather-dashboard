@@ -3,6 +3,7 @@ var btnEl = document.querySelector("#search-form");
 var weatherContainerEl = document.querySelector("#weather-container");
 var subtitleEl = document.querySelector(".subtitle");
 var weatherIconEl = document.querySelector("#weather-icon");
+var weatherCardEl = document.querySelector("#foreceast")
 
 
 var locationQuery
@@ -111,13 +112,19 @@ function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
     weatherContainerEl.appendChild(uvIndexEl);
 }
 
-var displayForecastWeather = function(date, weather, temp, wind, humidity, uv) {
+function displayForecastWeather(date, weather, temp, wind, humidity, uv) {
 
     var day = moment.unix(date).format("DD/MM/YYYY");
 
+    var tempEl = document.createElement("P");
+    var windEl = document.createElement("P");
+    var humidityEl = document.createElement("P");
+    var uvIndexEl = document.createElement("P");
 
-
+    tempEl.textContent = "Temp: " + temp + "\xB0" + "C";
+    
 }
+
 
 
 
