@@ -25,11 +25,23 @@ var formSubmitHandler = function (event) {
     }
 
 
-    var city = cityInputEl.value
+    var city = cityInputEl.value;
+    var country
+
+    convertLocation(city);
+
+    function convertLocation(query) {
+
+        //pushes string into an array to split between city and country
+        var queryArray = []
+        queryArray = query.split(",");
+        console.log(queryArray);
+        city = queryArray[0];
+        country = queryArray[1];
+    }
 
     if (city) {
-        getCity(city);
-        createHistoryButton(city);
+        getCity(city, country);
     } else {
         alert("Please enter a city");
     };
@@ -46,18 +58,41 @@ function historyBtnHandler () {
     }
 
     var city = this.innerHTML;
+    var country;
     
-    var getStoredCity = JSON.parse(localStorage.getItem(city));
+    var getStoredCity = localStorage.getItem(city);
 
     console.log(getStoredCity);
-    
+
+    convertLocation(getStoredCity);
+
+    function convertLocation(query) {
+
+        //pushes string into an array to split between city and country
+        var queryArray = []
+        queryArray = query.split(",");
+        console.log(queryArray);
+        city = queryArray[0];
+        country = queryArray[1].split(" ").join(""); //remove spaces from string
+    }
+
+    getCity(city, country);
+
 }
 
 
-var getCity = function (city) {
+
+
+var getCity = function (city, country) {
 
     //Based on user input, the first search result is returned from the following API
-    var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&format=geocodejson";
+    if (country == null) {
+        var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&format=geocodejson";
+    } else {
+        var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&country=" + country + "&format=geocodejson";
+    }
+
+    console.log(apiUrl);
 
     fetch(apiUrl)
         .then(function (response) {
@@ -68,7 +103,10 @@ var getCity = function (city) {
                     lonCoords = data.features[0].geometry.coordinates[0];
                     stateAndCountryQuery = data.features[0].properties.geocoding.label;
                     // search weather based on coordinates from openstreetmap
+                    saveQuery(locationQuery);
+                    createHistoryButton(locationQuery);
                     getQuery(latCoords, lonCoords);
+
 
                     locationQuery = data.features[0].properties.geocoding.name + ", " + getCountry(stateAndCountryQuery);
 
@@ -106,7 +144,7 @@ function getQuery(latitude, longitude) {
                     humidity = data.current.humidity
                     uv = data.current.uvi
                     displayWeatherToday(date, weather, temp, wind, humidity, uv);
-                    saveQuery(locationQuery);
+                    
 
                     var fiveDayInt = 6;
                     var forecastArray = [];
@@ -136,7 +174,6 @@ function getQuery(latitude, longitude) {
                         console.log(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
 
                         displayWeatherForecast(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
-                        saveWeather(date, weather, temp, wind, humidity)
 
                     }
 
@@ -217,7 +254,9 @@ function saveQuery(query) {
 };
 
 function createHistoryButton(location) {
-
+    if (location === localStorage.key) {
+        console.log("Already stored in database");
+    } else {
     var historyEl = document.createElement("button");
     historyEl.setAttribute("class", "btn btn-history");
     historyEl.innerHTML = location;
@@ -225,6 +264,7 @@ function createHistoryButton(location) {
 
     historyEl.addEventListener("click", historyBtnHandler);
     historyBtnEl = historyEl;
+    }
 };
 
 
