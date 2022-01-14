@@ -90,7 +90,7 @@ function getQuery(latitude, longitude) {
                     uv = data.current.uvi
                     displayWeatherToday(date, weather, temp, wind, humidity, uv);
 
-                    var fiveDayInt = 5;
+                    var fiveDayInt = 6;
                     var forecastArray = [];
 
                     //Loop 5 times to obtain 5-day weather forecast
@@ -107,16 +107,18 @@ function getQuery(latitude, longitude) {
 
                     console.log(forecastArray);
 
-                    // for (var i = 0; i < fiveDayInt; i++) {
+                    for (var i = 1; i < forecastArray.length -1; i++) {
 
-                    //     var forecastDate = forecastArray[i].date
-                    //     var forecastWeather = forecastArray[i].
-                    //     var forecastTemp;
-                    //     var forecastWind;
-                    //     var forecastHumidity;
+                        var forecastDate = forecastArray[i].date
+                        var forecastWeather = forecastArray[i].weather
+                        var forecastTemp = forecastArray[i].temp.day
+                        var forecastWind = forecastArray[i].wind
+                        var forecastHumidity = forecastArray[i].humidity
 
-                    //     displayWeatherForecast()
-                    // }
+                        console.log(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
+
+                        displayWeatherForecast(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
+                    }
 
 
 
@@ -159,7 +161,6 @@ function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
 function displayWeatherForecast(date, weather, temp, wind, humidity) {
 
     var day = moment.unix(date).format("DD/MM/YYYY");
-    var fiveDays = 5;
 
     var cardSubtitleEl
     var weatherIconImg
@@ -167,7 +168,6 @@ function displayWeatherForecast(date, weather, temp, wind, humidity) {
     var windEl
     var humidityEl
 
-    for (var i = 0; i < fiveDays; i++) {
         var cardEl = document.createElement("div");
         cardEl.setAttribute("class", "card forecast-card");
         weatherForecastContainerEl.appendChild(cardEl);
@@ -183,18 +183,12 @@ function displayWeatherForecast(date, weather, temp, wind, humidity) {
         cardEl.appendChild(tempEl);
         cardEl.appendChild(windEl);
         cardEl.appendChild(humidityEl);
-    }
 
-    cardEl = document.querySelectorAll(".forecast-card");
-
-    cardEl.forEach(function (day) {
-        cardSubtitleEl.textContent = "(" + day + ")"
-    })
-
-
-
-
-
+        cardSubtitleEl.textContent =  "(" + day + ")"
+        weatherIconImg.setAttribute("src", "http://openweathermap.org/img/wn/" + weather + ".png");
+        tempEl.textContent = "Temp: " + temp + "\xB0" + "C";
+    windEl.textContent = "Wind: " + wind + "KMH";
+    humidityEl.textContent = "Humidity: " + humidity + "%";
 
 }
 
