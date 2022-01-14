@@ -5,6 +5,7 @@ var subtitleEl = document.querySelector(".subtitle");
 var weatherIconEl = document.querySelector("#weather-icon");
 var weatherForecastContainerEl = document.querySelector(".forecast-container")
 var historyContainerEl = document.querySelector("#previous-search-buttons");
+var clearBtnEl = document.querySelector(".btn-secondary");
 
 var historyBtnEl;
 
@@ -12,6 +13,14 @@ var forecastData;
 var weatherHistory;
 
 var locationQuery;
+
+function clearHistory () {
+    while (historyContainerEl.firstChild) {
+        historyContainerEl.removeChild(historyContainerEl.lastChild);
+    }
+
+    localStorage.clear();
+}
 
 var formSubmitHandler = function (event) {
     event.preventDefault();
@@ -26,9 +35,10 @@ var formSubmitHandler = function (event) {
 
 
     var city = cityInputEl.value;
-    var country
+    var country;
 
     convertLocation(city);
+    createHistoryButton(city);
 
     function convertLocation(query) {
 
@@ -62,18 +72,14 @@ function historyBtnHandler () {
     
     var getStoredCity = localStorage.getItem(city);
 
-    console.log(getStoredCity);
-
     convertLocation(getStoredCity);
 
     function convertLocation(query) {
 
-        //pushes string into an array to split between city and country
+        //pushes string into an array to obtain first value which is the city
         var queryArray = []
         queryArray = query.split(",");
-        console.log(queryArray);
         city = queryArray[0];
-        country = queryArray[1].split(" ").join(""); //remove spaces from string
     }
 
     getCity(city, country);
@@ -86,7 +92,7 @@ function historyBtnHandler () {
 var getCity = function (city, country) {
 
     //Based on user input, the first search result is returned from the following API
-    if (country == null) {
+    if (!country) {
         var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&format=geocodejson";
     } else {
         var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&country=" + country + "&format=geocodejson";
@@ -98,21 +104,23 @@ var getCity = function (city, country) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data)
+                    console.log(data);
                     latCoords = data.features[0].geometry.coordinates[1];
                     lonCoords = data.features[0].geometry.coordinates[0];
                     stateAndCountryQuery = data.features[0].properties.geocoding.label;
                     // search weather based on coordinates from openstreetmap
-                    saveQuery(locationQuery);
-                    createHistoryButton(locationQuery);
+                    
                     getQuery(latCoords, lonCoords);
 
 
                     locationQuery = data.features[0].properties.geocoding.name + ", " + getCountry(stateAndCountryQuery);
 
+                    saveQuery(locationQuery);
+
                     function getCountry(location) {
                         var countryArray = [];
                         var countryArray = location.split(",");
+                        console.log(countryArray);
                         return location = countryArray.pop()
                     }
                 })
@@ -135,7 +143,6 @@ function getQuery(latitude, longitude) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data);
 
                     date = data.current.dt
                     weather = data.current.weather[0].icon
@@ -254,9 +261,7 @@ function saveQuery(query) {
 };
 
 function createHistoryButton(location) {
-    if (location === localStorage.key) {
-        console.log("Already stored in database");
-    } else {
+
     var historyEl = document.createElement("button");
     historyEl.setAttribute("class", "btn btn-history");
     historyEl.innerHTML = location;
@@ -264,7 +269,7 @@ function createHistoryButton(location) {
 
     historyEl.addEventListener("click", historyBtnHandler);
     historyBtnEl = historyEl;
-    }
+
 };
 
 
@@ -273,10 +278,14 @@ function getSearchHistory () {
     for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
         var item = localStorage.getItem(key);
-        createHistoryButton(item);
+        
+        if (item !== null) {
+            createHistoryButton(item);
+        }
     };
 };
 
 getSearchHistory();
 
 searchBtnEl.addEventListener("submit", formSubmitHandler);
+clearBtnEl.addEventListener("click", clearHistory)
