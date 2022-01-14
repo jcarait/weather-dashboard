@@ -6,6 +6,7 @@ var weatherIconEl = document.querySelector("#weather-icon");
 var weatherForecastContainer = document.querySelector(".forecast-container")
 
 var weatherCardEl
+var cardSubtitleEl
 
 var locationQuery
 
@@ -94,11 +95,8 @@ function getQuery(latitude, longitude) {
                     }
                     forecastArray.push(forecastData)
                   }
-
-                  
                     console.log(forecastArray);
-
-
+                    displayWeatherForecast();
               })
           }
       }); 
@@ -132,9 +130,13 @@ function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
 }
 
 function displayWeatherForecast(date, weather, temp, wind, humidity, uv) {
+    
     createForecastCards();
 
+    
     var day = moment.unix(date).format("DD/MM/YYYY");
+
+
 
     
 }
@@ -146,9 +148,35 @@ function createForecastCards() {
         var cardEl = document.createElement("div");
         cardEl.setAttribute("class", "card forecast-card");
         weatherForecastContainer.appendChild(cardEl);
+
+        var cardSubtitleEl = document.createElement("h3");
+        var weatherIconImg = document.createElement("img");
+        var tempEl = document.createElement("P");
+        var windEl = document.createElement("P");
+        var humidityEl = document.createElement("P");
+
+        cardEl.appendChild(cardSubtitleEl);
+        cardEl.weatherIconImg(weatherIconImg);
+        cardEl.appendChild(tempEl);
+        cardEl.appendChild(windEl);
+        cardEl.appendChild(humidityEl);
+
+        
     }
+
+    // createCardElements();
+
 }
 
-weatherCardEl.textContent = "test";
+// function createCardElements() {
+
+//     weatherCardEl = document.querySelector(".forecast-card");
+
+//     weatherCardEl.forEach(function() {
+//         cardSubtitleEl = document.createElement("h3")
+//         weatherCardEl.appendChild(cardSubtitleEl)
+//     });
+// }
+
 
 btnEl.addEventListener("submit", formSubmitHandler);
