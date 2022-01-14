@@ -29,7 +29,7 @@ var formSubmitHandler = function (event) {
 
     if (city) {
         getCity(city);
-        console.log(city);
+        createHistoryButton(city);
     } else {
         alert("Please enter a city");
     };
@@ -46,7 +46,10 @@ function historyBtnHandler () {
     }
 
     var city = this.innerHTML;
-    console.log(city);
+    
+    var getStoredCity = JSON.parse(localStorage.getItem(city));
+
+    console.log(getStoredCity);
     
 }
 
@@ -103,8 +106,7 @@ function getQuery(latitude, longitude) {
                     humidity = data.current.humidity
                     uv = data.current.uvi
                     displayWeatherToday(date, weather, temp, wind, humidity, uv);
-                    saveWeather(date, weather, temp, wind, humidity, uv)
-                    createHistoryButton(locationQuery);
+                    saveQuery(locationQuery);
 
                     var fiveDayInt = 6;
                     var forecastArray = [];
@@ -134,7 +136,7 @@ function getQuery(latitude, longitude) {
                         console.log(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
 
                         displayWeatherForecast(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
-                        saveWeather(date, weather, temp, wind, humidity, uv)
+                        saveWeather(date, weather, temp, wind, humidity)
 
                     }
 
@@ -209,35 +211,17 @@ function displayWeatherForecast(date, weather, temp, wind, humidity) {
 
 }
 
-function saveWeather(date, weather, temp, wind, humidity, uv) {
+function saveQuery(query) {
 
-    //store weather data into object and push to an array - then stringify data into local storage
-
-    var weatherObject = {
-        location: locationQuery,
-        date: date,
-        weather: weather,
-        temp: temp,
-        wind: wind,
-        humidty: humidity,
-        uv: uv
-    }
-
-
-
-    localStorage.setItem(locationQuery, JSON.stringify(weatherObject));
+    localStorage.setItem(locationQuery, locationQuery);
 };
 
 function createHistoryButton(location) {
 
-    if (location == null) {
-        console.log("Error, location not valid");
-    } else {
     var historyEl = document.createElement("button");
     historyEl.setAttribute("class", "btn btn-history");
     historyEl.innerHTML = location;
     historyContainerEl.appendChild(historyEl);
-    };
 
     historyEl.addEventListener("click", historyBtnHandler);
     historyBtnEl = historyEl;
@@ -248,13 +232,11 @@ function getSearchHistory () {
     //loop through local storage data and create history buttons in history section
     for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
-        var item = JSON.parse(localStorage.getItem(key));
-        createHistoryButton(item.location);  
+        var item = localStorage.getItem(key);
+        createHistoryButton(item);
     };
 };
 
 getSearchHistory();
 
 searchBtnEl.addEventListener("submit", formSubmitHandler);
-
-
