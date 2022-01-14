@@ -197,7 +197,7 @@ function displayWeatherForecast(date, weather, temp, wind, humidity) {
 function saveWeather(date, weather, temp, wind, humidity, uv) {
 
     //store weather data into object and push to an array - then stringify data into local storage
-    var storeData = []
+
     var weatherObject = {
         location: locationQuery,
         date: date,
@@ -208,35 +208,37 @@ function saveWeather(date, weather, temp, wind, humidity, uv) {
         uv: uv
     }
 
-    storeData.push(weatherObject);
 
-    localStorage.setItem(locationQuery, JSON.stringify(storeData));
-}
 
-function createHistoryButton() {
+    localStorage.setItem(locationQuery, JSON.stringify(weatherObject));
+};
+
+function createHistoryButton(location) {
 
     var historyEl = document.createElement("button");
     historyEl.setAttribute("class", "btn");
-    historyEl.innerHTML = locationQuery
+    historyEl.innerHTML = location;
     historyContainerEl.appendChild(historyEl);
-}
+};
 
 function displayWeatherHistory () {
 
     var getStoredWeather = localStorage.getItem(locationQuery);
 
     console.log(getStoredWeather);
-
-
-}
+};
 
 function getSearchHistory () {
     for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
-        console.log(key);
-    }
-}
+        var item = JSON.parse(localStorage.getItem(key));
+        createHistoryButton(item.location);
+        
+    };
 
+    
+    
+};
 
-
+getSearchHistory();
 btnEl.addEventListener("submit", formSubmitHandler);
