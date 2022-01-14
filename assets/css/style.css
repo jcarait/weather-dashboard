@@ -209,10 +209,7 @@
   }
   
   /* FLEX CONTENT */
-  .flex-row {
-    display: flex;
-    flex-wrap: wrap;
-  }
+
   
   .flex-column {
     display: flex;
@@ -306,6 +303,12 @@
   
   /* col-sm */
   @media screen and (min-width: 640px) {
+
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
     .col-sm-1 {
       flex: 0 0 calc(100% * 1 / 12 - 2%);
     }
