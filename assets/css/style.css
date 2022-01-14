@@ -47,13 +47,6 @@
     vertical-align: middle;
   }
 
-  section {
-    display: flex;
-    margin: 20px;
-  }
-
-
-
    .btn {
     font-size: 1.3rem;
     text-decoration:none;
@@ -214,7 +207,6 @@
     padding: 20px;
     margin: 0 20px;
   }
-  
   
   /* FLEX CONTENT */
   .flex-row {
