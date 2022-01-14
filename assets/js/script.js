@@ -5,8 +5,6 @@ var subtitleEl = document.querySelector(".subtitle");
 var weatherIconEl = document.querySelector("#weather-icon");
 var weatherForecastContainerEl = document.querySelector(".forecast-container")
 
-var weatherCardEl
-var cardSubtitleEl
 var forecastData
 
 var locationQuery
@@ -89,6 +87,7 @@ function getQuery(latitude, longitude) {
                     humidity = data.current.humidity
                     uv = data.current.uvi
                     displayWeatherToday(date, weather, temp, wind, humidity, uv);
+                    saveCurrentWeather(date, weather, temp, wind, humidity, uv)
 
                     var fiveDayInt = 6;
                     var forecastArray = [];
@@ -136,7 +135,7 @@ function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
 
     var day = moment.unix(date).format("DD/MM/YYYY");
 
-    subtitleEl.innerHTML = locationQuery + "(" + day + ")";
+    subtitleEl.innerHTML = locationQuery + " (" + day + ")";
     var weatherIconImg = document.createElement("img");
 
     weatherIconImg.setAttribute("src", "http://openweathermap.org/img/wn/" + weather + ".png");
@@ -188,8 +187,16 @@ function displayWeatherForecast(date, weather, temp, wind, humidity) {
         cardSubtitleEl.textContent =  "(" + day + ")"
         weatherIconImg.setAttribute("src", "http://openweathermap.org/img/wn/" + weather + ".png");
         tempEl.textContent = "Temp: " + temp + "\xB0" + "C";
-    windEl.textContent = "Wind: " + wind + "KMH";
-    humidityEl.textContent = "Humidity: " + humidity + "%";
+        windEl.textContent = "Wind: " + wind + "KMH";
+        humidityEl.textContent = "Humidity: " + humidity + "%";
+
+}
+
+function saveCurrentWeather(date, weather, temp, wind, humidity, uv) {
+
+    var storeCurrentWeather = [date, weather, temp, wind, humidity, uv];
+    
+    localStorage.setItem(locationQuery, storeCurrentWeather);
 
 }
 

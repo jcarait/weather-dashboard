@@ -2,7 +2,7 @@
     --primary: #ebe8e8e1;
     --secondary: #9caea9;
     --tertiary: #788585;
-    --light-dark: #6051a5;
+    --light-dark: rgb(47, 23, 151);
     --dark: #110f57;
     --border-radius: .3rem;
   }
@@ -31,6 +31,10 @@
     margin: 0;
     color: var(--dark);
     line-height: 1.25;
+  }
+
+  h3 {
+    color: var(--primary);
   }
   
   main {
@@ -206,6 +210,14 @@
   .forecast {
     padding: 20px;
     margin: 0 20px;
+  }
+
+  .forecast-card {
+    border: none;
+    background-color: var(--light-dark);
+    color: var(--primary);
+    padding: 1em;
+    margin: 10px;
   }
   
   /* FLEX CONTENT */
