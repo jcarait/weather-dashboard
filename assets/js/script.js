@@ -107,7 +107,7 @@ function getQuery(latitude, longitude) {
 
                     console.log(forecastArray);
 
-                    for (var i = 1; i < forecastArray.length -1; i++) {
+                    for (var i = 1; i < forecastArray.length; i++) {
 
                         var forecastDate = forecastArray[i].date
                         var forecastWeather = forecastArray[i].weather
@@ -118,11 +118,12 @@ function getQuery(latitude, longitude) {
                         console.log(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
 
                         displayWeatherForecast(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
+
                     }
 
+               
 
 
-                    displayWeatherForecast();
                 })
             }
         });
