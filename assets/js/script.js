@@ -1,14 +1,17 @@
 var cityInputEl = document.querySelector("#city");
-var btnEl = document.querySelector("#search-form");
+var searchBtnEl = document.querySelector("#search-form");
 var weatherContainerEl = document.querySelector("#weather-container");
 var subtitleEl = document.querySelector(".subtitle");
 var weatherIconEl = document.querySelector("#weather-icon");
 var weatherForecastContainerEl = document.querySelector(".forecast-container")
 var historyContainerEl = document.querySelector("#previous-search-buttons");
 
-var forecastData
+var historyBtnEl;
 
-var locationQuery
+var forecastData;
+var weatherHistory;
+
+var locationQuery;
 
 var formSubmitHandler = function (event) {
     event.preventDefault();
@@ -22,9 +25,6 @@ var formSubmitHandler = function (event) {
     }
 
 
-
-
-
     var city = cityInputEl.value
 
     if (city) {
@@ -34,6 +34,21 @@ var formSubmitHandler = function (event) {
         alert("Please enter a city");
     };
 };
+
+function historyBtnHandler () {
+
+    while (weatherContainerEl.firstChild) {
+        weatherContainerEl.removeChild(weatherContainerEl.lastChild);
+    }
+
+    while (weatherForecastContainerEl.firstChild) {
+        weatherForecastContainerEl.removeChild(weatherForecastContainerEl.lastChild)
+    }
+
+    var city = this.innerHTML;
+    console.log(city);
+    
+}
 
 
 var getCity = function (city) {
@@ -89,7 +104,7 @@ function getQuery(latitude, longitude) {
                     uv = data.current.uvi
                     displayWeatherToday(date, weather, temp, wind, humidity, uv);
                     saveWeather(date, weather, temp, wind, humidity, uv)
-                    createHistoryButton();
+                    createHistoryButton(locationQuery);
 
                     var fiveDayInt = 6;
                     var forecastArray = [];
@@ -215,30 +230,31 @@ function saveWeather(date, weather, temp, wind, humidity, uv) {
 
 function createHistoryButton(location) {
 
+    if (location == null) {
+        console.log("Error, location not valid");
+    } else {
     var historyEl = document.createElement("button");
-    historyEl.setAttribute("class", "btn");
+    historyEl.setAttribute("class", "btn btn-history");
     historyEl.innerHTML = location;
     historyContainerEl.appendChild(historyEl);
+    };
+
+    historyEl.addEventListener("click", historyBtnHandler);
+    historyBtnEl = historyEl;
 };
 
-function displayWeatherHistory () {
 
-    var getStoredWeather = localStorage.getItem(locationQuery);
-
-    console.log(getStoredWeather);
-};
-
-function getSearchHistory () {
+function getSearchHistory () { 
+    //loop through local storage data and create history buttons in history section
     for (var i = 0; i < localStorage.length; i++) {
         var key = localStorage.key(i);
         var item = JSON.parse(localStorage.getItem(key));
-        createHistoryButton(item.location);
-        
+        createHistoryButton(item.location);  
     };
-
-    
-    
 };
 
 getSearchHistory();
-btnEl.addEventListener("submit", formSubmitHandler);
+
+searchBtnEl.addEventListener("submit", formSubmitHandler);
+
+
