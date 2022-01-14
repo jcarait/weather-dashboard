@@ -4,6 +4,7 @@ var weatherContainerEl = document.querySelector("#weather-container");
 var subtitleEl = document.querySelector(".subtitle");
 var weatherIconEl = document.querySelector("#weather-icon");
 var weatherForecastContainerEl = document.querySelector(".forecast-container")
+var historyContainerEl = document.querySelector("#previous-search-buttons");
 
 var forecastData
 
@@ -87,7 +88,8 @@ function getQuery(latitude, longitude) {
                     humidity = data.current.humidity
                     uv = data.current.uvi
                     displayWeatherToday(date, weather, temp, wind, humidity, uv);
-                    saveCurrentWeather(date, weather, temp, wind, humidity, uv)
+                    saveWeather(date, weather, temp, wind, humidity, uv)
+                    createHistoryButton();
 
                     var fiveDayInt = 6;
                     var forecastArray = [];
@@ -117,6 +119,7 @@ function getQuery(latitude, longitude) {
                         console.log(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
 
                         displayWeatherForecast(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
+                        saveWeather(date, weather, temp, wind, humidity, uv)
 
                     }
 
@@ -128,7 +131,6 @@ function getQuery(latitude, longitude) {
         });
 };
 
-console.log(forecastData);
 
 
 function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
@@ -192,12 +194,49 @@ function displayWeatherForecast(date, weather, temp, wind, humidity) {
 
 }
 
-function saveCurrentWeather(date, weather, temp, wind, humidity, uv) {
+function saveWeather(date, weather, temp, wind, humidity, uv) {
 
-    var storeCurrentWeather = [date, weather, temp, wind, humidity, uv];
-    
-    localStorage.setItem(locationQuery, storeCurrentWeather);
+    //store weather data into object and push to an array - then stringify data into local storage
+    var storeData = []
+    var weatherObject = {
+        location: locationQuery,
+        date: date,
+        weather: weather,
+        temp: temp,
+        wind: wind,
+        humidty: humidity,
+        uv: uv
+    }
+
+    storeData.push(weatherObject);
+
+    localStorage.setItem(locationQuery, JSON.stringify(storeData));
+}
+
+function createHistoryButton() {
+
+    var historyEl = document.createElement("button");
+    historyEl.setAttribute("class", "btn");
+    historyEl.innerHTML = locationQuery
+    historyContainerEl.appendChild(historyEl);
+}
+
+function displayWeatherHistory () {
+
+    var getStoredWeather = localStorage.getItem(locationQuery);
+
+    console.log(getStoredWeather);
+
 
 }
+
+function getSearchHistory () {
+    for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        console.log(key);
+    }
+}
+
+
 
 btnEl.addEventListener("submit", formSubmitHandler);
