@@ -35,11 +35,6 @@ var formSubmitHandler = function (event) {
 
 
     var city = cityInputEl.value;
-    
-    createHistoryButton(city);
-
-    // city = city.replace(/\s+/g, "");
-   
 
     if (city) {
         getCity(city);
@@ -47,17 +42,6 @@ var formSubmitHandler = function (event) {
         alert("Please enter a city");
     };
 };
-
-// **this function is meant to deal with the query having multiple queries i.e. sydney, australia
-// function convertLocation(query) {
-
-//     
-//     var queryArray = []
-//     queryArray = query.split(",");
-//     console.log(queryArray);
-//     city = queryArray[0];
-//     country = queryArray[1];
-// }
 
 function historyBtnHandler () {
 
@@ -96,26 +80,24 @@ var getCity = function (city) {
     //Based on user input, the first search result is returned from the following API
     var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city +"&appid=" + apiKey
 
-    console.log(apiUrl);
-
     fetch( apiUrl )
         .then(function (response) {
             if (response.ok) {
-                console.log(response);
                 response.json().then(function (data) {
-                    console.log(data);
                     latCoords = data.coord.lat;
                     lonCoords = data.coord.lon;
                     // search weather based on coordinates from openstreetmap
                     
                     getQuery(latCoords, lonCoords);
-
-
                     locationQuery = data.name + ", " + data.sys.country
-
                     saveQuery(locationQuery);
+                    createHistoryButton(locationQuery);
+                    
                 })
-            } 
+            } else {
+                subtitleEl.textContent = "Please enter a city (and country) i.e. Sydney, Australia"
+                subtitleEl.setAttribute("style", "padding: 5px 10px;")
+            }
         })
 };
 
@@ -134,7 +116,6 @@ function getQuery(latitude, longitude) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data);
                     date = data.current.dt
                     weather = data.current.weather[0].icon
                     temp = data.current.temp
@@ -159,8 +140,6 @@ function getQuery(latitude, longitude) {
                         forecastArray.push(forecastData)
                     }
 
-                    console.log(forecastArray);
-
                     for (var i = 1; i < forecastArray.length; i++) {
 
                         var forecastDate = forecastArray[i].date
@@ -169,9 +148,8 @@ function getQuery(latitude, longitude) {
                         var forecastWind = forecastArray[i].wind
                         var forecastHumidity = forecastArray[i].humidity
 
-                        console.log(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
-
                         displayWeatherForecast(forecastDate, forecastWeather, forecastTemp, forecastWind, forecastHumidity)
+                        
 
                     }
 
@@ -190,6 +168,7 @@ function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
     var day = moment.unix(date).format("DD/MM/YYYY");
 
     subtitleEl.innerHTML = locationQuery + " (" + day + ")";
+    subtitleEl.setAttribute("style", "padding: 5px 10px;")
     var weatherIconImg = document.createElement("img");
 
     weatherIconImg.setAttribute("src", "http://openweathermap.org/img/wn/" + weather + ".png");

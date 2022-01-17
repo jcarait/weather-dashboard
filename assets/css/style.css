@@ -2,7 +2,7 @@
     --primary: #ebe8e8e1;
     --secondary: #9caea9;
     --tertiary: #788585;
-    --light-dark: rgb(47, 23, 151);
+    --light-dark: rgb(84, 152, 216);
     --dark: #110f57;
     --border-radius: .3rem;
   }
@@ -31,6 +31,15 @@
     margin: 0;
     color: var(--dark);
     line-height: 1.25;
+  }
+
+  h2 {
+    
+    background-color: var(--light-dark);
+    color: var(--primary);
+    display: inline-block;
+    width: auto;
+    border-radius: 4px;
   }
 
   h3 {
@@ -144,6 +153,10 @@
     margin: 0 5px;
     background-color: rgba(255,255,255, 1);
     border-radius: var(--border-radius);
+  }
+
+  .subtitle-container {
+    max-width: 75%;
   }
   
   /* CARDS */
