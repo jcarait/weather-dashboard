@@ -7,11 +7,11 @@ The weather forecast is useful information for any user, which makes it a great 
 
 ## Usage
 
-Link to [dashboard](https://jcarait.github.io/weather-dashboard/)
+Link to [dashboard](https://jcarait.github.io/weather-dashboard/).
 
 Enter a query in the text input box i.e Sydney, Australia.
 
-Click on the button in Search history to query a previously searched city and/or country
+Click on the button in Search history to query a previously searched city and/or country.
 
 ![A page with boxes which contains weather data. Coloured-frame boxes highlight specific areas of the page with instruction labels](./assets/images/usage.png)
 
