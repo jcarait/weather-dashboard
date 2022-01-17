@@ -101,6 +101,7 @@ var getCity = function (city) {
     fetch( apiUrl )
         .then(function (response) {
             if (response.ok) {
+                console.log(response);
                 response.json().then(function (data) {
                     console.log(data);
                     latCoords = data.coord.lat;
@@ -114,6 +115,8 @@ var getCity = function (city) {
 
                     saveQuery(locationQuery);
                 })
+            } else if (response.cod == 404) {
+                subtitleEl.innerHTML = response.message
             }
         })
 };
