@@ -7,6 +7,8 @@ The weather forecast is useful information for any user, which makes it a great 
 
 ## Usage
 
+Link to dashboard (https://jcarait.github.io/weather-dashboard/)
+
 Enter a query in the text input box i.e Sydney, Australia.
 
 Click on the button in Search history to query a previously searched city and/or country
