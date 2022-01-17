@@ -115,9 +115,7 @@ var getCity = function (city) {
 
                     saveQuery(locationQuery);
                 })
-            } else if (response.cod == 404) {
-                subtitleEl.innerHTML = response.message
-            }
+            } 
         })
 };
 
