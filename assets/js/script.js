@@ -82,6 +82,7 @@ var getCity = function (city) {
 
     fetch( apiUrl )
         .then(function (response) {
+            console.log(response)
             if (response.ok) {
                 response.json().then(function (data) {
                     latCoords = data.coord.lat;
