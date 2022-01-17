@@ -11,6 +11,8 @@ Enter a query in the text input box i.e Sydney, Australia.
 
 Click on the button in Search history to query a previously searched city and/or country
 
+![A page with boxes which contains weather data. Coloured-frame boxes highlight specific areas of the page with instruction labels](./assets/images/usage.png)
+
 ## Features
 
 - Uses a public weather API to get weather data in JSON format
@@ -21,3 +23,5 @@ Click on the button in Search history to query a previously searched city and/or
 - Momentjs
 
 ## Demo
+
+![A demonstration of a page with search input to enter a city which then displays weather data on the page. Previously searched cities are generated in history as a button which can be clicked on](./assets/images/weather-dashboard-demo.gif)
