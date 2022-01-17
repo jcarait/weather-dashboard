@@ -6,13 +6,13 @@ var weatherIconEl = document.querySelector("#weather-icon");
 var weatherForecastContainerEl = document.querySelector(".forecast-container")
 var historyContainerEl = document.querySelector("#previous-search-buttons");
 var clearBtnEl = document.querySelector(".btn-secondary");
-
 var historyBtnEl;
 
 var forecastData;
 var weatherHistory;
-
 var locationQuery;
+
+apiKey = "bcab79206c70f6bc43884e90ada9c868"
 
 function clearHistory () {
     while (historyContainerEl.firstChild) {
@@ -35,27 +35,29 @@ var formSubmitHandler = function (event) {
 
 
     var city = cityInputEl.value;
-    var country;
-
-    convertLocation(city);
+    
     createHistoryButton(city);
 
-    function convertLocation(query) {
-
-        //pushes string into an array to split between city and country
-        var queryArray = []
-        queryArray = query.split(",");
-        console.log(queryArray);
-        city = queryArray[0];
-        country = queryArray[1];
-    }
+    // city = city.replace(/\s+/g, "");
+   
 
     if (city) {
-        getCity(city, country);
+        getCity(city);
     } else {
         alert("Please enter a city");
     };
 };
+
+// **this function is meant to deal with the query having multiple queries i.e. sydney, australia
+// function convertLocation(query) {
+
+//     
+//     var queryArray = []
+//     queryArray = query.split(",");
+//     console.log(queryArray);
+//     city = queryArray[0];
+//     country = queryArray[1];
+// }
 
 function historyBtnHandler () {
 
@@ -89,40 +91,28 @@ function historyBtnHandler () {
 
 
 
-var getCity = function (city, country) {
+var getCity = function (city) {
 
     //Based on user input, the first search result is returned from the following API
-    if (!country) {
-        var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&format=geocodejson";
-    } else {
-        var apiUrl = "https://nominatim.openstreetmap.org/search?city=" + city + "&country=" + country + "&format=geocodejson";
-    }
+    var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city +"&appid=" + apiKey
 
     console.log(apiUrl);
 
-    fetch(apiUrl)
+    fetch( apiUrl )
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
-                    latCoords = data.features[0].geometry.coordinates[1];
-                    lonCoords = data.features[0].geometry.coordinates[0];
-                    stateAndCountryQuery = data.features[0].properties.geocoding.label;
+                    latCoords = data.coord.lat;
+                    lonCoords = data.coord.lon;
                     // search weather based on coordinates from openstreetmap
                     
                     getQuery(latCoords, lonCoords);
 
 
-                    locationQuery = data.features[0].properties.geocoding.name + ", " + getCountry(stateAndCountryQuery);
+                    locationQuery = data.name + ", " + data.sys.country
 
                     saveQuery(locationQuery);
-
-                    function getCountry(location) {
-                        var countryArray = [];
-                        var countryArray = location.split(",");
-                        console.log(countryArray);
-                        return location = countryArray.pop()
-                    }
                 })
             }
         })
@@ -139,11 +129,11 @@ function getQuery(latitude, longitude) {
     var humidity;
     var uv;
 
-    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=minutely,hourly&units=metric&appid=bcab79206c70f6bc43884e90ada9c868")
+    fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=minutely,hourly&units=metric&appid=" + apiKey)
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-
+                    console.log(data);
                     date = data.current.dt
                     weather = data.current.weather[0].icon
                     temp = data.current.temp
