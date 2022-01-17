@@ -78,7 +78,7 @@ function historyBtnHandler () {
 var getCity = function (city) {
 
     //Based on user input, the first search result is returned from the following API
-    var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city +"&appid=" + apiKey
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city +"&appid=" + apiKey
 
     fetch( apiUrl )
         .then(function (response) {
