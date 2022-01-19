@@ -117,12 +117,12 @@ function getQuery(latitude, longitude) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    date = data.current.dt
-                    weather = data.current.weather[0].icon
-                    temp = data.current.temp
-                    wind = data.current.wind_speed
-                    humidity = data.current.humidity
-                    uv = data.current.uvi
+                    date = data.current.dt;
+                    weather = data.current.weather[0].icon;
+                    temp = data.current.temp;
+                    wind = data.current.wind_speed;
+                    humidity = data.current.humidity;
+                    uv = data.current.uvi;
                     displayWeatherToday(date, weather, temp, wind, humidity, uv);
                     
 
@@ -179,17 +179,51 @@ function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
     var tempEl = document.createElement("P");
     var windEl = document.createElement("P");
     var humidityEl = document.createElement("P");
-    var uvIndexEl = document.createElement("P");
+    var uvIndexEl = document.createElement("p");
+    var uvSpanEl = document.createElement("span");
 
     tempEl.textContent = "Temp: " + temp + "\xB0" + "C";
     windEl.textContent = "Wind: " + wind + "KMH";
     humidityEl.textContent = "Humidity: " + humidity + "%";
-    uvIndexEl.textContent = "UV Index: " + uv
+    uvIndexEl.innerHTML = "UV Index: ";
+    uvSpanEl.textContent = uv;
+
+    uvIndexSpanEl = uvIndexEl.firstChild
+
+    uvSpanEl.style.padding = "8px";
+    uvSpanEl.style.borderRadius = "5px";
+
+    if (uv <= 2) {
+        uvSpanEl.style.backgroundColor = "green";
+    };
+
+    if (uv > 2 && uv <= 5) {
+        uvSpanEl.style.backgroundColor = "yellow";
+    };
+
+    if (uv == 6 && uv == 7) {
+        uvSpanEl.style.backgroundColor = "orange";
+    };
+
+    if (uv >= 8 && uv <= 10) {
+        uvSpanEl.style.backgroundColor = "red";
+    };
+
+    if (uv >= 11) {
+        uvSpanEl.style.backgroundColor = "maroon";
+    };
+
+    
+
 
     weatherContainerEl.appendChild(tempEl);
     weatherContainerEl.appendChild(windEl);
     weatherContainerEl.appendChild(humidityEl);
     weatherContainerEl.appendChild(uvIndexEl);
+    uvIndexEl.appendChild(uvSpanEl)
+
+    
+   
 }
 
 function displayWeatherForecast(date, weather, temp, wind, humidity) {
