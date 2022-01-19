@@ -82,7 +82,6 @@ var getCity = function (city) {
 
     fetch( apiUrl )
         .then(function (response) {
-            console.log(response)
             if (response.ok) {
                 response.json().then(function (data) {
                     latCoords = data.coord.lat;
@@ -117,6 +116,7 @@ function getQuery(latitude, longitude) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
+                    console.log(data);
                     date = data.current.dt;
                     weather = data.current.weather[0].icon;
                     temp = data.current.temp;
@@ -201,7 +201,7 @@ function displayWeatherToday(date, weather, temp, wind, humidity, uv) {
         uvSpanEl.style.backgroundColor = "yellow";
     };
 
-    if (uv == 6 && uv == 7) {
+    if (uv >= 6 && uv <= 7) {
         uvSpanEl.style.backgroundColor = "orange";
     };
 
