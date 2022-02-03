@@ -7,7 +7,7 @@ The weather forecast is useful information for any user, which makes it a great 
 
 ## Usage
 
-[Github deployed link](https://jcarait.github.io/weather-dashboard/).
+[Github deployed link](https://jcarait.github.io/weather-dashboard/)
 
 Enter a query in the text input box i.e Sydney, Australia.
 
